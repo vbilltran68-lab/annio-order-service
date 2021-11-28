@@ -1,0 +1,6 @@
+apps:
+  - script: ./dist/main.js
+    name: "annio-order-service"
+    instances: max
+    exec_mode: cluster
+    max_memory_restart: 512M

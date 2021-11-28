@@ -1,0 +1,7 @@
+dist
+node_modules
+Dockerfile*
+npm-debug.log
+yarn.lock
+package.lock
+.vscode

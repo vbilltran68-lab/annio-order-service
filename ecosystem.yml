@@ -1,0 +1,13 @@
+apps:
+  - script: ./dist/main.js
+    name: "annio-order-service"
+    instances: 1
+    exec_mode: fork
+    max_memory_restart: 2G
+    source_map_support: true
+    watch: true
+    log_date_format: YYYY-MM-DD HH:mm:ss.SSS
+    interpreter_args:
+      - --inspect=0.0.0.0:9229
+      - -r
+      - source-map-support/register
