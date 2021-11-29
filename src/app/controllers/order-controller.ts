@@ -39,7 +39,7 @@ export class OrderController extends BaseController {
     return await this.adminService.cancel(id);
   }
 
-  @MessagePattern('check_status')
+  @MessagePattern('order_check_status')
   async checkOrderStatus(
     @Payload() id: string,
     @Ctx() context: TcpContext,
