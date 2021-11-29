@@ -2,9 +2,11 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Connection } from 'typeorm';
 import { BaseService } from '@annio/core/lib/services';
-import { ORDER_STATUS } from '@annio/core/lib/interfaces';
+import {
+  ORDER_STATUS,
+  CreateOrderDTO,
+} from '@annio/core/lib/business/order.business';
 import { OrderEntity } from '@app/entities/order.entity';
-import { CreateOrderDTO } from '../dto';
 import { plainToClass } from 'class-transformer';
 
 @Injectable()
