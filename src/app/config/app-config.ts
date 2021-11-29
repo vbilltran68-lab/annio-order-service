@@ -27,9 +27,6 @@ export const AppConfig: IAppConfig = {
       connectionLimit: 10,
     },
   },
-  apiConfig: {
-    prefix: process.env.API_PREFIX,
-  },
 };
 
 export function getRootPath() {

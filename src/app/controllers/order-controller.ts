@@ -1,13 +1,19 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  Ctx,
+  MessagePattern,
+  Payload,
+  TcpContext,
+} from '@nestjs/microservices';
 import { BaseController } from '@annio/core/lib/controllers';
-import { ORDER_ROUTES } from '@app/constants';
 import { OrderService } from '@app/services';
-import { CreateOrderDTO, OrderDTO } from '@app/dto';
-import { ORDER_STATUS } from '@annio/core/lib/interfaces';
+import {
+  ORDER_STATUS,
+  OrderDTO,
+  CreateOrderDTO,
+} from '@annio/core/lib/business/order.business';
+import { plainToClass } from 'class-transformer';
 
-@ApiTags(ORDER_ROUTES.TAGS)
 @Controller()
 export class OrderController extends BaseController {
   constructor(private readonly adminService: OrderService) {
@@ -15,18 +21,30 @@ export class OrderController extends BaseController {
   }
 
   @MessagePattern('order_create')
-  async create(body: CreateOrderDTO): Promise<OrderDTO> {
+  async create(
+    @Payload() body: CreateOrderDTO,
+    @Ctx() context: TcpContext,
+  ): Promise<OrderDTO> {
+    this.logger.log('ms:create', context.getPattern());
     const newOrder = await this.adminService.create(body);
-    return new OrderDTO(newOrder);
+    return plainToClass(OrderDTO, newOrder);
   }
 
   @MessagePattern('order_cancel')
-  async cancel(id: string): Promise<boolean> {
+  async cancel(
+    @Payload() id: string,
+    @Ctx() context: TcpContext,
+  ): Promise<boolean> {
+    this.logger.log('ms:cancel', context.getPattern());
     return await this.adminService.cancel(id);
   }
 
-  @MessagePattern('order_cancel')
-  async checkOrderStatus(id: string): Promise<ORDER_STATUS> {
+  @MessagePattern('check_status')
+  async checkOrderStatus(
+    @Payload() id: string,
+    @Ctx() context: TcpContext,
+  ): Promise<ORDER_STATUS> {
+    this.logger.log('ms:checkStatus:', context.getPattern());
     return await this.adminService.checkStatus(id);
   }
 }

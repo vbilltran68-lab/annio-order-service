@@ -1,4 +1,4 @@
-import { IApiConfig, IDatabaseConfig } from '@annio/core/lib/interfaces';
+import { IDatabaseConfig } from '@annio/core/lib/interfaces';
 
 export interface IAppConfig {
   project: {
@@ -10,5 +10,4 @@ export interface IAppConfig {
     protocol: 'http' | 'https';
   };
   database: IDatabaseConfig;
-  apiConfig: IApiConfig;
 }
