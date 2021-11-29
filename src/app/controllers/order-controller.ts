@@ -1,11 +1,5 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Controller, HttpStatus } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
 import { BaseController } from '@annio/core/lib/controllers';
 import { ResponseDto } from '@annio/core/lib/dto';
@@ -20,18 +14,16 @@ export class OrderController extends BaseController {
     super(OrderController.name);
   }
 
-  @HttpCode(HttpStatus.OK)
-  @Post(ORDER_ROUTES.CREATE)
-  async create(@Body() body: CreateOrderDTO): Promise<ResponseDto<any>> {
+  @MessagePattern('order_create')
+  async create(body: CreateOrderDTO): Promise<ResponseDto<any>> {
     return this.ApiResponse(HttpStatus.OK, 'Create Order Success', async () => {
       const newOrder = await this.adminService.create(body);
       return new OrderDTO(newOrder);
     });
   }
 
-  @HttpCode(HttpStatus.OK)
-  @Post(ORDER_ROUTES.CANCEL)
-  async cancel(@Param('id') id: string): Promise<ResponseDto<any>> {
+  @MessagePattern('order_cancel')
+  async cancel(id: string): Promise<ResponseDto<any>> {
     return this.ApiResponse(
       HttpStatus.OK,
       'Cancel Order Success',
@@ -39,9 +31,8 @@ export class OrderController extends BaseController {
     );
   }
 
-  @HttpCode(HttpStatus.OK)
-  @Post(ORDER_ROUTES.CHECK_STATUS)
-  async checkOrderStatus(@Param('id') id: string): Promise<ResponseDto<any>> {
+  @MessagePattern('order_cancel')
+  async checkOrderStatus(id: string): Promise<ResponseDto<any>> {
     return this.ApiResponse(
       HttpStatus.OK,
       'Cancel Order Success',
