@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createUserTable1587053699221 implements MigrationInterface {
+export class createOrderTable1587053699221 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(this.table, true);
   }
@@ -10,7 +10,7 @@ export class createUserTable1587053699221 implements MigrationInterface {
   }
 
   public readonly table = new Table({
-    name: 'user',
+    name: 'order',
     columns: [
       {
         name: 'id',
@@ -21,6 +21,16 @@ export class createUserTable1587053699221 implements MigrationInterface {
         name: 'status',
         type: 'varchar(10)',
         isUnique: true,
+        isNullable: false,
+      },
+      {
+        name: 'productId',
+        type: 'varchar(64)',
+        isNullable: false,
+      },
+      {
+        name: 'quantity',
+        type: 'SMALLINT',
         isNullable: false,
       },
       {
