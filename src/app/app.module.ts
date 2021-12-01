@@ -11,8 +11,7 @@ import { BodyParserMiddleware } from '@annio/core/lib/middlewares';
 import { OrderController } from './controllers';
 import { IAppConfig } from './interfaces';
 import { OrderEntity } from './entities';
-import { OrderService } from './services';
-import { PaymentService } from './services/payment.service';
+import { OrderService, PaymentService } from './services';
 import { ClientProxyFactory } from '@nestjs/microservices';
 
 @Module({})
