@@ -22,10 +22,7 @@ export class OrderController extends BaseController {
   }
 
   @MessagePattern(ORDER_REQUEST_ACTION.GET_ALL)
-  async getAll(
-    @Payload() body: CreateOrderDTO,
-    @Ctx() context: TcpContext,
-  ): Promise<OrderDTO[]> {
+  async getAll(@Ctx() context: TcpContext): Promise<OrderDTO[]> {
     this.logger.log(ORDER_REQUEST_ACTION.GET_ALL, context.getPattern());
     const allOrder = await this.orderService.getAll();
     return allOrder.map(x => plainToClass(OrderDTO, x));

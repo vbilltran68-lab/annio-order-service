@@ -3,5 +3,5 @@
 CMD=$2
 : ${CMD:=/bin/bash}
 
-docker start annio-orders-service-dev
-docker exec -it annio-orders-service-dev ${CMD}
+docker start annio-order-service-dev
+docker exec -it annio-order-service-dev ${CMD}
