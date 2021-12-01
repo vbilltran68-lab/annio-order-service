@@ -1,5 +1,7 @@
 import { DATABASE_TYPE } from '@annio/core/lib/interfaces';
+import { MICROSERVICE } from '@app/constants';
 import { IAppConfig } from '@app/interfaces';
+import { Transport } from '@nestjs/microservices';
 import { readFileSync } from 'fs';
 import * as path from 'path';
 
@@ -25,6 +27,21 @@ export const AppConfig: IAppConfig = {
     migrations: [__dirname + './../migrations/*.ts'],
     options: {
       connectionLimit: 10,
+    },
+  },
+  services: {
+    payment: {
+      key: MICROSERVICE.PAYMENT,
+      config: {
+        transport: Transport.TCP,
+        options: {
+          host: process.env.SERVICE_PAYMENT_HOST,
+          port: +process.env.SERVICE_PAYMENT_PORT,
+        },
+      },
+    },
+    delivery: {
+      secondDelay: +process.env.DELIVERY_SECOND_DELAY || 15,
     },
   },
 };

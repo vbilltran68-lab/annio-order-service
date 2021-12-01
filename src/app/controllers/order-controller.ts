@@ -11,40 +11,62 @@ import {
   ORDER_STATUS,
   OrderDTO,
   CreateOrderDTO,
+  ORDER_REQUEST_ACTION,
 } from '@annio/core/lib/business/order.business';
 import { plainToClass } from 'class-transformer';
 
 @Controller()
 export class OrderController extends BaseController {
-  constructor(private readonly adminService: OrderService) {
+  constructor(private readonly orderService: OrderService) {
     super(OrderController.name);
   }
 
-  @MessagePattern('order_create')
+  @MessagePattern(ORDER_REQUEST_ACTION.GET_ALL)
+  async getAll(
+    @Payload() body: CreateOrderDTO,
+    @Ctx() context: TcpContext,
+  ): Promise<OrderDTO[]> {
+    this.logger.log(ORDER_REQUEST_ACTION.GET_ALL, context.getPattern());
+    const allOrder = await this.orderService.getAll();
+    return allOrder.map(x => plainToClass(OrderDTO, x));
+  }
+
+  @MessagePattern(ORDER_REQUEST_ACTION.GET_BY_ID)
+  async getInfo(
+    @Payload() id: string,
+    @Ctx() context: TcpContext,
+  ): Promise<OrderDTO> {
+    this.logger.log(ORDER_REQUEST_ACTION.GET_BY_ID, context.getPattern());
+    return plainToClass(OrderDTO, await this.orderService.getValidById(id));
+  }
+
+  @MessagePattern(ORDER_REQUEST_ACTION.CREATE)
   async create(
     @Payload() body: CreateOrderDTO,
     @Ctx() context: TcpContext,
   ): Promise<OrderDTO> {
-    this.logger.log('ms:create', context.getPattern());
-    const newOrder = await this.adminService.create(body);
-    return plainToClass(OrderDTO, newOrder);
+    this.logger.log(ORDER_REQUEST_ACTION.CREATE, context.getPattern());
+    return plainToClass(OrderDTO, await this.orderService.create(body));
   }
 
-  @MessagePattern('order_cancel')
+  @MessagePattern(ORDER_REQUEST_ACTION.CANCEL_BY_ID)
   async cancel(
     @Payload() id: string,
     @Ctx() context: TcpContext,
   ): Promise<boolean> {
-    this.logger.log('ms:cancel', context.getPattern());
-    return await this.adminService.cancel(id);
+    this.logger.log(ORDER_REQUEST_ACTION.CANCEL_BY_ID, context.getPattern());
+    return await this.orderService.cancelById(id);
   }
 
-  @MessagePattern('order_check_status')
-  async checkOrderStatus(
+  @MessagePattern(ORDER_REQUEST_ACTION.CHECK_STATUS_BY_ID)
+  async checkStatus(
     @Payload() id: string,
     @Ctx() context: TcpContext,
   ): Promise<ORDER_STATUS> {
-    this.logger.log('ms:checkStatus:', context.getPattern());
-    return await this.adminService.checkStatus(id);
+    this.logger.log(
+      ORDER_REQUEST_ACTION.CHECK_STATUS_BY_ID,
+      context.getPattern(),
+    );
+    return await this.orderService.checkStatusById(id);
   }
 }

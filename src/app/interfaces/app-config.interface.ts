@@ -1,4 +1,7 @@
-import { IDatabaseConfig } from '@annio/core/lib/interfaces';
+import {
+  IDatabaseConfig,
+  IMicroServiceConfig,
+} from '@annio/core/lib/interfaces';
 
 export interface IAppConfig {
   project: {
@@ -10,4 +13,10 @@ export interface IAppConfig {
     protocol: 'http' | 'https';
   };
   database: IDatabaseConfig;
+  services: {
+    payment: IMicroServiceConfig;
+    delivery: {
+      secondDelay: number;
+    };
+  };
 }

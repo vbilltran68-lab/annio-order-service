@@ -1,0 +1,3 @@
+export const MICROSERVICE = {
+  PAYMENT: 'PAYMENT_SERVICE',
+};
