@@ -34,8 +34,9 @@ WORKDIR /usr/src/app
 RUN apk update
 RUN apk add g++ make python
 
-# install nestjs cli
+# install global cli
 RUN npm install @nestjs/cli@latest -g --force
+RUN npm install pm2 -g
 
 # copy source
 COPY . .
