@@ -1,4 +1,4 @@
-const { DATABASE_TYPE } = require('@annio/core/lib/interfaces');
+const { DATABASE_TYPE } = require('@annio/core/interfaces');
 
 module.exports = [
   {

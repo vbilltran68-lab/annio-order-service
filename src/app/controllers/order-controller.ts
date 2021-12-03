@@ -5,14 +5,13 @@ import {
   Payload,
   TcpContext,
 } from '@nestjs/microservices';
-import { BaseController } from '@annio/core/lib/controllers';
+import { BaseController } from '@annio/core/controllers';
 import { OrderService } from '@app/services';
 import {
   ORDER_STATUS,
-  OrderDTO,
-  CreateOrderDTO,
   ORDER_REQUEST_ACTION,
-} from '@annio/core/lib/business/order.business';
+} from '@annio/core/business/order/order.common';
+import { OrderDTO, CreateOrderDTO } from '@annio/core/business/order/order.dto';
 import { plainToClass } from 'class-transformer';
 
 @Controller()

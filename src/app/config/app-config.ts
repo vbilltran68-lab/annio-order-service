@@ -1,4 +1,4 @@
-import { DATABASE_TYPE } from '@annio/core/lib/interfaces';
+import { DATABASE_TYPE } from '@annio/core/interfaces';
 import { MICROSERVICE } from '@app/constants';
 import { IAppConfig } from '@app/interfaces';
 import { Transport } from '@nestjs/microservices';

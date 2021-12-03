@@ -1,7 +1,4 @@
-import {
-  IDatabaseConfig,
-  IMicroServiceConfig,
-} from '@annio/core/lib/interfaces';
+import { IDatabaseConfig, IMicroServiceConfig } from '@annio/core/interfaces';
 
 export interface IAppConfig {
   project: {

@@ -6,8 +6,8 @@ import {
   MiddlewareConsumer,
 } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigModule } from '@annio/core/lib/modules';
-import { BodyParserMiddleware } from '@annio/core/lib/middlewares';
+import { TypeOrmConfigModule } from '@annio/core/modules';
+import { BodyParserMiddleware } from '@annio/core/middlewares';
 import { OrderController } from './controllers';
 import { IAppConfig } from './interfaces';
 import { OrderEntity } from './entities';

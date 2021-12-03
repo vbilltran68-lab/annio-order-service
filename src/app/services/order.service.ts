@@ -5,18 +5,14 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BaseRepoService } from '@annio/core/lib/services';
-import {
-  ORDER_STATUS,
-  CreateOrderDTO,
-} from '@annio/core/lib/business/order.business';
+import { BaseRepoService } from '@annio/core/services';
+import { ORDER_STATUS } from '@annio/core/business/order/order.common';
+import { CreateOrderDTO } from '@annio/core/business/order/order.dto';
 import { OrderEntity } from '@app/entities/order.entity';
 import { plainToClass } from 'class-transformer';
 import { PaymentService } from './payment.service';
-import {
-  PAYMENT_STATUS,
-  ProcessOrderPaymentDTO,
-} from '@annio/core/lib/business/payment.business';
+import { PAYMENT_STATUS } from '@annio/core/business/payment/payment.common';
+import { ProcessOrderPaymentDTO } from '@annio/core/business/payment/payment.dto';
 import { AppConfig } from '@app/config';
 
 @Injectable()
