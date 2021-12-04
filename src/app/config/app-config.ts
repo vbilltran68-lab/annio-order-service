@@ -13,6 +13,16 @@ export const AppConfig: IAppConfig = {
     name: process.env.NODE_ENV || 'development',
     port: process.env.PORT ? +process.env.PORT : 5000,
     protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http',
+    microserviceOptions: {
+      transport: Transport.RMQ,
+      options: {
+        urls: [process.env.SERVICE_ORDER_RMQ_URL],
+        queue: process.env.SERVICE_ORDER_RMQ_QUEUE,
+        socketOptions: {
+          durable: false,
+        },
+      },
+    },
   },
   database: {
     type: DATABASE_TYPE.MYSQL,
@@ -33,10 +43,13 @@ export const AppConfig: IAppConfig = {
     payment: {
       key: MICROSERVICE.PAYMENT,
       config: {
-        transport: Transport.TCP,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.SERVICE_PAYMENT_HOST,
-          port: +process.env.SERVICE_PAYMENT_PORT,
+          urls: [process.env.SERVICE_PAYMENT_RMQ_URL],
+          queue: process.env.SERVICE_PAYMENT_RMQ_QUEUE,
+          socketOptions: {
+            durable: false,
+          },
         },
       },
     },

@@ -22,7 +22,7 @@ export class PaymentService extends BaseService {
     payload: ProcessOrderPaymentDTO,
   ): Promise<PAYMENT_STATUS> {
     return await ObservableUtils.getFirstResponse(
-      this.paymentClient.send(PAYMENT_REQUEST_ACTION.VERIFY, payload),
+      this.paymentClient.emit(PAYMENT_REQUEST_ACTION.VERIFY, payload),
     );
   }
 }
