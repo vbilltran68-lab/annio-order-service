@@ -28,7 +28,9 @@ export class OrderController extends BaseController {
     @Ctx() context: RmqContext,
   ): Promise<OrderDTO> {
     this.logger.log(ORDER_REQUEST_ACTION.GET_BY_ID, context.getPattern());
-    return plainToClass(OrderDTO, await this.orderService.getValidById(id));
+    const response = await this.orderService.getValidById(id);
+    this.logger.log(response);
+    return plainToClass(OrderDTO, response);
   }
 
   @EventPattern(ORDER_REQUEST_ACTION.CREATE)
