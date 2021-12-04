@@ -13,16 +13,20 @@ import { ObservableUtils } from '@annio/core/utils';
 export class PaymentService extends BaseService {
   constructor(
     @Inject(AppConfig.services.payment.key)
-    private readonly paymentClient: ClientProxy,
+    private readonly client: ClientProxy,
   ) {
     super(PaymentService.name);
+  }
+
+  async onApplicationBootstrap() {
+    await this.client.connect();
   }
 
   public async processOrderPayment(
     payload: ProcessOrderPaymentDTO,
   ): Promise<PAYMENT_STATUS> {
     return await ObservableUtils.getFirstResponse(
-      this.paymentClient.emit(PAYMENT_REQUEST_ACTION.VERIFY, payload),
+      this.client.emit(PAYMENT_REQUEST_ACTION.VERIFY, payload),
     );
   }
 }
