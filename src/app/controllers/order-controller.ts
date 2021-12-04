@@ -6,8 +6,8 @@ import {
   ORDER_STATUS,
   ORDER_REQUEST_ACTION,
 } from '@annio/core/business/order/order.common';
-import { OrderDTO, CreateOrderDTO } from '@annio/core/business/order/order.dto';
-import { plainToClass } from 'class-transformer';
+import { CreateOrderDTO } from '@annio/core/business/order/order.dto';
+import { OrderEntity } from '@app/entities';
 
 @Controller()
 export class OrderController extends BaseController {
@@ -16,30 +16,27 @@ export class OrderController extends BaseController {
   }
 
   @EventPattern(ORDER_REQUEST_ACTION.GET_ALL)
-  async getAll(@Ctx() context: RmqContext): Promise<OrderDTO[]> {
-    this.logger.log(ORDER_REQUEST_ACTION.GET_ALL, context.getPattern());
-    const allOrder = await this.orderService.getAll();
-    return allOrder.map(x => plainToClass(OrderDTO, x));
+  async getAll(@Ctx() context: RmqContext): Promise<OrderEntity[]> {
+    this.logger.log(context.getPattern(), context.getChannelRef());
+    return await this.orderService.getAll();
   }
 
   @EventPattern(ORDER_REQUEST_ACTION.GET_BY_ID)
   async getInfo(
     @Payload() id: string,
     @Ctx() context: RmqContext,
-  ): Promise<OrderDTO> {
-    this.logger.log(ORDER_REQUEST_ACTION.GET_BY_ID, context.getPattern());
-    const response = await this.orderService.getValidById(id);
-    this.logger.log(response);
-    return plainToClass(OrderDTO, response);
+  ): Promise<OrderEntity> {
+    this.logger.log(context.getPattern(), context.getChannelRef());
+    return await this.orderService.getValidById(id);
   }
 
   @EventPattern(ORDER_REQUEST_ACTION.CREATE)
   async create(
     @Payload() body: CreateOrderDTO,
     @Ctx() context: RmqContext,
-  ): Promise<OrderDTO> {
-    this.logger.log(ORDER_REQUEST_ACTION.CREATE, context.getPattern());
-    return plainToClass(OrderDTO, await this.orderService.create(body));
+  ): Promise<OrderEntity> {
+    this.logger.log(context.getPattern(), context.getChannelRef());
+    return await this.orderService.create(body);
   }
 
   @EventPattern(ORDER_REQUEST_ACTION.CANCEL_BY_ID)
@@ -47,7 +44,7 @@ export class OrderController extends BaseController {
     @Payload() id: string,
     @Ctx() context: RmqContext,
   ): Promise<boolean> {
-    this.logger.log(ORDER_REQUEST_ACTION.CANCEL_BY_ID, context.getPattern());
+    this.logger.log(context.getPattern(), context.getChannelRef());
     return await this.orderService.cancelById(id);
   }
 
@@ -56,10 +53,7 @@ export class OrderController extends BaseController {
     @Payload() id: string,
     @Ctx() context: RmqContext,
   ): Promise<ORDER_STATUS> {
-    this.logger.log(
-      ORDER_REQUEST_ACTION.CHECK_STATUS_BY_ID,
-      context.getPattern(),
-    );
+    this.logger.log(context.getPattern(), context.getChannelRef());
     return await this.orderService.checkStatusById(id);
   }
 }
