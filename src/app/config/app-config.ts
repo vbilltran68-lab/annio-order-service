@@ -18,7 +18,7 @@ export const AppConfig: IAppConfig = {
       options: {
         urls: [process.env.SERVICE_ORDER_RMQ_URL],
         queue: process.env.SERVICE_ORDER_RMQ_QUEUE,
-        socketOptions: {
+        queueOptions: {
           durable: false,
         },
       },
@@ -47,7 +47,7 @@ export const AppConfig: IAppConfig = {
         options: {
           urls: [process.env.SERVICE_PAYMENT_RMQ_URL],
           queue: process.env.SERVICE_PAYMENT_RMQ_QUEUE,
-          socketOptions: {
+          queueOptions: {
             durable: false,
           },
         },
