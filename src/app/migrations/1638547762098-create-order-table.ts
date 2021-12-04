@@ -19,7 +19,7 @@ export class createOrderTable1638547762098 implements MigrationInterface {
       },
       {
         name: 'status',
-        type: 'varchar(10)',
+        type: 'varchar(50)',
         isUnique: true,
         isNullable: false,
       },

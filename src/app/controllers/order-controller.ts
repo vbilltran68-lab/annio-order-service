@@ -7,7 +7,7 @@ import {
   ORDER_REQUEST_ACTION,
 } from '@annio/core/business/order/order.common';
 import { CreateOrderDTO } from '@annio/core/business/order/order.dto';
-import { OrderEntity } from '@app/entities';
+import { IOrder } from '@annio/core/business/order/order.interface';
 
 @Controller()
 export class OrderController extends BaseController {
@@ -16,7 +16,7 @@ export class OrderController extends BaseController {
   }
 
   @EventPattern(ORDER_REQUEST_ACTION.GET_ALL)
-  async getAll(@Ctx() context: RmqContext): Promise<OrderEntity[]> {
+  async getAll(@Ctx() context: RmqContext): Promise<IOrder[]> {
     this.logger.log(context.getPattern(), context.getChannelRef());
     return await this.orderService.getAll();
   }
@@ -25,7 +25,7 @@ export class OrderController extends BaseController {
   async getInfo(
     @Payload() id: string,
     @Ctx() context: RmqContext,
-  ): Promise<OrderEntity> {
+  ): Promise<IOrder> {
     this.logger.log(context.getPattern(), context.getChannelRef());
     return await this.orderService.getValidById(id);
   }
@@ -34,7 +34,7 @@ export class OrderController extends BaseController {
   async create(
     @Payload() body: CreateOrderDTO,
     @Ctx() context: RmqContext,
-  ): Promise<OrderEntity> {
+  ): Promise<IOrder> {
     this.logger.log(context.getPattern(), context.getChannelRef());
     return await this.orderService.create(body);
   }

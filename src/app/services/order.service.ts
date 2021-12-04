@@ -60,7 +60,7 @@ export class OrderService extends BaseRepoService<OrderEntity> {
   }
 
   public async cancelById(id: string): Promise<boolean> {
-    this.logger.log(`cancel order (order: ${id}, status: ${status})`);
+    this.logger.log(`cancel order (order: ${id}`);
 
     const orderVerified = await this.getValidById(id);
     if (orderVerified.status === ORDER_STATUS.DELIVERED) {

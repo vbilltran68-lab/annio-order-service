@@ -12,7 +12,7 @@ import { OrderController } from './controllers';
 import { IAppConfig } from './interfaces';
 import { OrderEntity } from './entities';
 import { OrderService, PaymentService } from './services';
-import { ClientProxyFactory } from '@nestjs/microservices';
+import { ClientsModule } from '@nestjs/microservices';
 
 @Module({})
 export class AppModule implements NestModule {
@@ -22,17 +22,15 @@ export class AppModule implements NestModule {
       imports: [
         TypeOrmConfigModule.forRoot(config.database, new Logger('DB')),
         TypeOrmModule.forFeature([OrderEntity]),
+        ClientsModule.register([
+          {
+            name: config.services.payment.key,
+            ...config.services.payment.config,
+          },
+        ]),
       ],
       controllers: [OrderController],
-      providers: [
-        OrderService,
-        PaymentService,
-        {
-          provide: config.services.payment.key,
-          useFactory: () =>
-            ClientProxyFactory.create(config.services.payment.config),
-        },
-      ],
+      providers: [OrderService, PaymentService],
       exports: [OrderService, PaymentService],
     };
   }
