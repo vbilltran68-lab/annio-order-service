@@ -63,13 +63,11 @@ export class OrderService extends BaseRepoService<OrderEntity> {
     this.logger.log(`cancel order (order: ${id}`);
 
     const orderVerified = await this.getValidById(id);
-    if (orderVerified.status === ORDER_STATUS.DELIVERED) {
+    if (orderVerified.status === ORDER_STATUS.CANCELLED) {
       throw new BadRequestException('Your order cannot cancelled');
     }
 
-    if (orderVerified.status !== ORDER_STATUS.CANCELLED) {
-      await this.changeStatus(id, ORDER_STATUS.CANCELLED);
-    }
+    await this.changeStatus(id, ORDER_STATUS.CANCELLED);
 
     return true;
   }
