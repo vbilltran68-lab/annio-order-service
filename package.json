@@ -72,7 +72,7 @@
     "@types/node": "12.12.24",
     "@types/passport-jwt": "3.0.3",
     "@types/passport-local": "1.0.33",
-    "@types/supertest": "2.0.8",
+    "@types/supertest": "2.0.12",
     "jest": "24.9.0",
     "nodemon": "2.0.2",
     "pm2": "4.5.0",
